@@ -34,7 +34,10 @@ while running:
     # RENDER YOUR GAME HERE
     for cell in cells:
         pygame.draw.rect(screen, "white", (cell['start_pos'][0],cell['start_pos'][1],190,190))
-    
+
+        if cell['o_checked']:
+            pygame.draw.circle(screen,'red',(cell['start_pos'][0]+95,cell['start_pos'][1]+95), 60)
+            pygame.draw.circle(screen,'white',(cell['start_pos'][0]+95,cell['start_pos'][1]+95), 50)
 
     # flip() the display to put your work on screen
     pygame.display.flip()
