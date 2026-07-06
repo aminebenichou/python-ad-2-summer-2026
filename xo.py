@@ -20,13 +20,16 @@ cells = [
     {'start_pos':(200,400), 'x_checked':False, 'o_checked':False, 'end_pos':(390,590)},
     {'start_pos':(400,400), 'x_checked':False, 'o_checked':False, 'end_pos':(590,590)},
 ]
-
+pos = (0,0)
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pos = pygame.mouse.get_pos()
+            print(pos)
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("black")
@@ -35,10 +38,16 @@ while running:
     for cell in cells:
         pygame.draw.rect(screen, "white", (cell['start_pos'][0],cell['start_pos'][1],190,190))
 
+        if  cell['start_pos'][0]<pos[0]<cell['end_pos'][0] and cell['start_pos'][1]<pos[1]<cell['end_pos'][1]:
+            cell['o_checked']=True
+            pos=(0,0)
+
         if cell['o_checked']:
             pygame.draw.circle(screen,'red',(cell['start_pos'][0]+95,cell['start_pos'][1]+95), 60)
             pygame.draw.circle(screen,'white',(cell['start_pos'][0]+95,cell['start_pos'][1]+95), 50)
-
+        if cell['x_checked']:
+            pygame.draw.line(screen, 'blue', cell['start_pos'], cell['end_pos'], 10)
+            pygame.draw.line(screen, 'blue', (cell['end_pos'][0],cell['start_pos'][1]), (cell['start_pos'][0],cell['end_pos'][1]), 10)
     # flip() the display to put your work on screen
     pygame.display.flip()
 
