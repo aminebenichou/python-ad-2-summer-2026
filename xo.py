@@ -21,6 +21,7 @@ cells = [
     {'start_pos':(400,400), 'x_checked':False, 'o_checked':False, 'end_pos':(590,590)},
 ]
 pos = (0,0)
+player = "x"
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
@@ -39,8 +40,12 @@ while running:
         pygame.draw.rect(screen, "white", (cell['start_pos'][0],cell['start_pos'][1],190,190))
 
         if  cell['start_pos'][0]<pos[0]<cell['end_pos'][0] and cell['start_pos'][1]<pos[1]<cell['end_pos'][1]:
-            cell['o_checked']=True
+            cell[f'{player}_checked']=True
             pos=(0,0)
+            if player == "x":
+                player="o"
+            else:
+                player="x"
 
         if cell['o_checked']:
             pygame.draw.circle(screen,'red',(cell['start_pos'][0]+95,cell['start_pos'][1]+95), 60)
