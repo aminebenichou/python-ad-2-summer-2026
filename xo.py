@@ -1,6 +1,6 @@
 # Example file showing a basic pygame "game loop"
 import pygame
-
+import test
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((600, 600))
@@ -50,6 +50,7 @@ def get_winner(combinations):
 pos = (0,0)
 player = "x"
 while running:
+    test.testingimports()
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
