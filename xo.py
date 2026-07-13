@@ -7,6 +7,12 @@ screen = pygame.display.set_mode((600, 600))
 clock = pygame.time.Clock()
 running = True
 
+font=pygame.font.Font(None, 64)
+text = font.render("You Won", True, 'green')
+text_rect=text.get_rect()
+text_rect.center = (600//2, 600//2)
+winner=False
+
 cells = [
     {'start_pos':(0,0), 'x_checked':False, 'o_checked':False, 'end_pos':(190,190)},
     {'start_pos':(200,0), 'x_checked':False, 'o_checked':False, 'end_pos':(390,190)},
@@ -38,7 +44,7 @@ def get_winner(combinations):
     for combo in combinations:
         if cells[combo[0]][f'{player}_checked'] and cells[combo[1]][f'{player}_checked'] and cells[combo[2]][f'{player}_checked']:
             print("we have a winner")
-            break   
+            return True   
                 
 
 pos = (0,0)
@@ -60,10 +66,11 @@ while running:
     for cell in cells:
         pygame.draw.rect(screen, "white", (cell['start_pos'][0],cell['start_pos'][1],190,190))
 
-        if  cell['start_pos'][0]<pos[0]<cell['end_pos'][0] and cell['start_pos'][1]<pos[1]<cell['end_pos'][1] and  (not cell['o_checked'] and not cell['x_checked']):
+        if not winner and cell['start_pos'][0]<pos[0]<cell['end_pos'][0] and cell['start_pos'][1]<pos[1]<cell['end_pos'][1] and  (not cell['o_checked'] and not cell['x_checked']):
             
             cell[f'{player}_checked']=True
-            get_winner(combinations)
+            winner = get_winner(combinations)
+
             if player =="x":
                 player="o"
             else:
@@ -81,7 +88,8 @@ while running:
             pygame.draw.line(screen, 'blue', (cell['end_pos'][0],cell['start_pos'][1]), (cell['start_pos'][0],cell['end_pos'][1]), 10)
     
     
-    
+    if winner:
+        screen.blit(text, text_rect)
     # flip() the display to put your work on screen
     pygame.display.flip()
 
